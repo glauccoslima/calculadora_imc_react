@@ -6,60 +6,60 @@ function IMCForm() {
   const [peso, setPeso] = useState('');
   const [imc, setImc] = useState(null);
   const [classificacao, setClassificacao] = useState('');
-  const [erro, setErro] = useState('');
+  const [error, setError] = useState('');
 
   // Função para calcular o IMC
-  const calcularIMC = () => {
+  const calculateIMC = () => {
     // Convertendo altura e peso para float, substituindo vírgula por ponto se necessário
-    const alturaCorrigida = parseFloat(altura.replace(',', '.'));
-    const pesoCorrigido = parseFloat(peso.replace(',', '.'));
+    const alturaNumber = parseFloat(altura.replace(',', '.'));
+    const pesoNumber = parseFloat(peso.replace(',', '.'));
 
     // Verificando se os valores são válidos
-    if (isNaN(alturaCorrigida) || isNaN(pesoCorrigido) || alturaCorrigida <= 0 || pesoCorrigido <= 0) {
-      setErro('Por favor, insira valores válidos para altura e peso.');
+    if (isNaN(alturaNumber) || isNaN(pesoNumber) || alturaNumber <= 0 || pesoNumber <= 0) {
+      setError('Please enter valid values for height and weight.');
       return;
     }
 
     // Convertendo altura para metros se for maior que 3 (assumindo que o usuário pode inserir em metros ou centímetros)
-    const alturaMetros = alturaCorrigida <= 3 ? alturaCorrigida : alturaCorrigida / 100;
+    const alturaInMeters = alturaNumber <= 3 ? alturaNumber : alturaNumber / 100;
 
     // Calculando o IMC
-    const imcCalculado = pesoCorrigido / (alturaMetros ** 2);
+    const imcValue = pesoNumber / (alturaInMeters * alturaInMeters);
 
     // Atualizando o estado com os valores calculados
-    setImc(imcCalculado.toFixed(2));
-    setClassificacao(getClassificacao(imcCalculado));
-    setErro(''); // Limpar qualquer erro anterior
+    setImc(imcValue.toFixed(2));
+    setClassificacao(getClassification(imcValue));
+    setError(''); // Limpar qualquer erro anterior
   };
 
   // Função para determinar a classificação do IMC
-  const getClassificacao = (imc) => {
-    if (imc < 18.5) return 'Abaixo do peso';
-    if (imc < 24.9) return 'Peso normal';
-    if (imc < 29.9) return 'Sobrepeso';
-    if (imc < 34.9) return 'Obesidade grau 1';
-    if (imc < 39.9) return 'Obesidade grau 2';
-    return 'Obesidade grau 3';
+  const getClassification = (imc) => {
+    if (imc < 18.5) return 'Underweight';
+    if (imc < 24.9) return 'Normal weight';
+    if (imc < 29.9) return 'Overweight';
+    if (imc < 34.9) return 'Obesity Class I';
+    if (imc < 39.9) return 'Obesity Class II';
+    return 'Obesity Class III';
   };
 
   // Renderizando o formulário
   return (
     <div className="container">
-      <h1>Calculadora de IMC</h1>
-      {erro && <div className="alert alert-danger">{erro}</div>} {/* Mostrando erro se houver */}
+      <h1>IMC Calculator</h1>
+      {error && <div className="alert alert-danger">{error}</div>} {/* Mostrando erro se houver */}
       <div className="mb-3">
-        <label className="form-label">Altura</label>
-        <input type="text" className="form-control" value={altura} onChange={e => setAltura(e.target.value.replace(/[^0-9.,]/g, ''))} />
+        <label className="form-label">Height</label>
+        <input type="text" className="form-control" value={altura} onChange={(e) => setAltura(e.target.value.replace(/[^0-9.,]/g, ''))} />
       </div>
       <div className="mb-3">
-        <label className="form-label">Peso</label>
-        <input type="text" className="form-control" value={peso} onChange={e => setPeso(e.target.value.replace(/[^0-9.,]/g, ''))} />
+        <label className="form-label">Weight</label>
+        <input type="text" className="form-control" value={peso} onChange={(e) => setPeso(e.target.value.replace(/[^0-9.,]/g, ''))} />
       </div>
-      <button className="mb-2 btn btn-primary" onClick={calcularIMC}>Calcular</button>
+      <button className="mb-2 btn btn-primary" onClick={calculateIMC}>Calculate</button>
       {imc && (
         <div>
           <h3>IMC: {imc}</h3>
-          <h3>Classificação: {classificacao}</h3>
+          <h3>Classification: {classificacao}</h3>
         </div>
       )} {/* Mostrando o resultado se o IMC for calculado */}
     </div>
