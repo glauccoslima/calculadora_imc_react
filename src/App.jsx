@@ -1,15 +1,19 @@
-// Importando o componente IMCForm
+// This code imports a component called IMCForm and renders it inside a div with the class "App".
+// The IMCForm component is used to calculate the Body Mass Index (BMI) of a person.
+
+// Importing the IMCForm component
 import IMCForm from './components/IMCForm';
 
-// Definindo o componente App
+// Defining the App component
 function App() {
-  // Renderizando o componente IMCForm dentro de uma div com a classe "App"
+  // Returning the JSX code that renders the IMCForm component
   return (
     <div className="App">
-      <IMCForm /> {/* Inserindo o componente IMCForm */}
+      <h1>Body Mass Index Calculator</h1> {/* Adding a title to the page */}
+      <IMCForm style={{ marginTop: '2rem' }} /> {/* Adding some margin to the top of the IMCForm component */}
     </div>
   );
 }
 
-// Exportando o componente App para ser usado em outras partes do projeto
+// Exporting the App component
 export default App;
